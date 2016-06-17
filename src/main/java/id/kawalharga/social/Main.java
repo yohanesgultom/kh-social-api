@@ -17,7 +17,7 @@ public class Main {
             if (args.length > 1) {
                 String action = args[0];
                 String config = args[1];
-                logger.info(action + " starting");
+                logger.debug(action + " starting");
                 if ("fb-page-update".equalsIgnoreCase(action)) {
                     id.kawalharga.facebook.Service service = new id.kawalharga.facebook.Service(config);
                     List<String> postIds = service.getLastPostIds(10);
@@ -33,7 +33,7 @@ public class Main {
                     id.kawalharga.twitter.Service service = new id.kawalharga.twitter.Service(config);
                     service.postSingleTodayInput();
                 }
-                logger.info(action + " completed");
+                logger.debug(action + " completed");
             } else {
                 logger.error("Insufficient arguments");
             }

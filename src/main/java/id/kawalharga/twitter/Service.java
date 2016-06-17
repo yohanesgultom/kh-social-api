@@ -129,21 +129,21 @@ public class Service extends AbstractService {
                     // reply
                     try {
                         Status reply = twitter.updateStatus(String.format(THANKYOU_REPLY, status.getUser().getScreenName(), input.toString()));
-                        logger.info("Laporan dibalas: " + reply.getText());
+                        logger.info("Tweet replied: " + reply.getText());
                     } catch (Exception e1) {
                         logger.error(e1.getMessage());
                     }
 
                     count++;
                 } else {
-                    logger.warn("Komoditas tidak ditemukan: " + name);
+                    logger.warn("Cannot find commodity: " + name);
                 }
 
             }
 
         }
 
-        logger.info("Jumlah tweet diproses: " + count);
+        logger.info("Processed price report tweet: " + count);
 
         return list;
     }
