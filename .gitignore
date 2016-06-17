@@ -1,0 +1,8 @@
+.gradle/
+.idea/
+build/
+**/facebook4j.properties
+**/twitter4j.properties
+**/facebook4j.updated.properties
+**/config.properties
+*.log

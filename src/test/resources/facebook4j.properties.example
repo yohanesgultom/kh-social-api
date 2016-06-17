@@ -1,0 +1,6 @@
+# create real configuration file facebook4j.properties using this template to make it work
+debug=true
+oauth.appId=
+oauth.appSecret=
+oauth.accessToken=
+oauth.permissions=manage_pages,publish_pages
