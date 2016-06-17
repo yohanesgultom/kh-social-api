@@ -1,5 +1,5 @@
 # KH Social API Integration
-Kawal/Pantau Harga integration with social media using awesome library [Facebook4j](http://facebook4j.org) and [Twitter4j](http://twitter4j.org)
+Kawal/Pantau Harga integration with social media using awesome libraries [Facebook4j](http://facebook4j.org) and [Twitter4j](http://twitter4j.org). Using internal library [kh-database](https://github.com/yohanesgultom/kh-database) to access Kawal/Pantau Harga DB 
 
 Facebook
 * Post daily price info in fan page
