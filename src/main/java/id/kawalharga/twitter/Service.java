@@ -12,6 +12,8 @@ import twitter4j.TwitterFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -163,6 +165,15 @@ public class Service extends AbstractService {
         return found;
     }
 
+    public String getTweetMessage(CommodityInput commodityInput) {
+        Locale locale = new Locale("in", "ID");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMM yyyy", locale);
+        Currency idr = Currency.getInstance("IDR");
+        NumberFormat nf = NumberFormat.getCurrencyInstance(locale);
+        nf.setCurrency(idr);
+        return String.format("%s %s/kg di %s (%f, %f) dilaporkan %s %s", new Object[]{commodityInput.getName(), nf.format(commodityInput.getPrice()), commodityInput.getLocation(), Double.valueOf(commodityInput.getGeo().getLat()), Double.valueOf(commodityInput.getGeo().getLng()), commodityInput.getUser().getName(), sdf.format(commodityInput.getCreatedAt())});
+    }
+
     public void checkReport(int minutes) throws Exception {
         List<CommodityInput> commodityInputList = this.getPriceReport(minutes);
         this.service.batchInsertCommodityInput(commodityInputList);
@@ -172,11 +183,11 @@ public class Service extends AbstractService {
     public void postSingleTodayInput() throws Exception {
         CommodityInput input = this.getInputToBePosted(SOCIAL_MEDIA_TABLE);
         if (input != null) {
-            Status status = twitter.updateStatus(input.toString());
+            Status status = twitter.updateStatus(this.getTweetMessage(input));
             logger.info("Tweeted: " + status.getText());
             this.insertStatus(status, input);
         } else {
-            logger.info("Nothing to be posted yet");
+            logger.info("Nothing to be tweeted yet");
         }
     }
 }
