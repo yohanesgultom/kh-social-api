@@ -171,7 +171,7 @@ public class Service extends AbstractService {
         Currency idr = Currency.getInstance("IDR");
         NumberFormat nf = NumberFormat.getCurrencyInstance(locale);
         nf.setCurrency(idr);
-        return String.format("%s %s/kg di %s (%f, %f) dilaporkan %s %s", new Object[]{commodityInput.getName(), nf.format(commodityInput.getPrice()), commodityInput.getLocation(), Double.valueOf(commodityInput.getGeo().getLat()), Double.valueOf(commodityInput.getGeo().getLng()), commodityInput.getUser().getName(), sdf.format(commodityInput.getCreatedAt())});
+        return String.format("%s %s/kg di (%f, %f) dilaporkan %s %s", commodityInput.getName(), nf.format(commodityInput.getPrice()), Double.valueOf(commodityInput.getGeo().getLat()), Double.valueOf(commodityInput.getGeo().getLng()), commodityInput.getUser().getName(), sdf.format(commodityInput.getCreatedAt()));
     }
 
     public void checkReport(int minutes) throws Exception {
@@ -183,11 +183,17 @@ public class Service extends AbstractService {
     public void postSingleTodayInput() throws Exception {
         CommodityInput input = this.getInputToBePosted(SOCIAL_MEDIA_TABLE);
         if (input != null) {
-            Status status = twitter.updateStatus(this.getTweetMessage(input));
+            String url = this.getGoogleMapUrlString(input.getGeo());
+            Status status = twitter.updateStatus(this.getTweetMessage(input) + " " + url);
             logger.info("Tweeted: " + status.getText());
             this.insertStatus(status, input);
         } else {
             logger.info("Nothing to be tweeted yet");
         }
+    }
+
+    @Override
+    public List<CommodityInput> getLastPostedCommodityInput(int limit) throws Exception {
+        return this.getLastPostedCommodityInput(SOCIAL_MEDIA_TABLE, limit);
     }
 }

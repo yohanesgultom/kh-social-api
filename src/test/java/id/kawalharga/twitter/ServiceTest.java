@@ -1,6 +1,7 @@
 package id.kawalharga.twitter;
 
 import id.kawalharga.model.CommodityInput;
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import twitter4j.Status;
@@ -14,6 +15,7 @@ import java.util.regex.Matcher;
  */
 public class ServiceTest {
 
+    final static Logger logger = Logger.getLogger(ServiceTest.class);
     Service service;
 
     @Before
@@ -58,7 +60,7 @@ public class ServiceTest {
 
     @Test
     public void commodityInputStringLengthTest() {
-        int twitterLengthLimit = 140;
+        int twitterLengthLimit = 117; // because it contains link
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy");
             String dateInString = "01-06-2016";
@@ -69,6 +71,17 @@ public class ServiceTest {
                 assert str.length() <= twitterLengthLimit;
             }
         } catch (Exception e) {
+            assert false;
+        }
+    }
+
+    @Test
+    public void getLastPostedCommodityInputTest() {
+        try {
+            List<CommodityInput> inputs = service.getLastPostedCommodityInput(2);
+            assert inputs != null;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             assert false;
         }
     }

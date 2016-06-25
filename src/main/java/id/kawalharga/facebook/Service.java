@@ -6,6 +6,7 @@ import facebook4j.Post;
 import facebook4j.auth.AccessToken;
 import id.kawalharga.model.CommodityInput;
 import id.kawalharga.model.Geolocation;
+import id.kawalharga.model.User;
 import id.kawalharga.social.AbstractService;
 import org.apache.log4j.Logger;
 
@@ -24,7 +25,6 @@ public class Service extends AbstractService {
     static final Logger logger = Logger.getLogger(Service.class);
     static final String FACEBOOK4J_UPDATED = "facebook4j.updated.properties";
     static final String FACEBOOK4J_OAUTH_TOKEN_FIELD = "oauth.accessToken";
-    static final String GOOGLE_MAP_URL = "http://maps.google.com/maps?q=%f,%f";
     static final String SOCIAL_MEDIA_TABLE = "post_fb";
 
     private Facebook facebook;
@@ -67,10 +67,6 @@ public class Service extends AbstractService {
 
     public id.kawalharga.database.Service getService() {
         return service;
-    }
-
-    String getGoogleMapUrlString(Geolocation geolocation) {
-        return String.format(GOOGLE_MAP_URL, geolocation.getLat(), geolocation.getLng());
     }
 
     public void renewAccessToken() throws Exception {
@@ -198,4 +194,8 @@ public class Service extends AbstractService {
         this.getService().closeDatabaseConnection();
     }
 
+    @Override
+    public List<CommodityInput> getLastPostedCommodityInput(int limit) throws Exception {
+        return this.getLastPostedCommodityInput(SOCIAL_MEDIA_TABLE, limit);
+    }
 }

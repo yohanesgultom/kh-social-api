@@ -117,4 +117,15 @@ public class ServiceTest {
             assert false;
         }
     }
+
+    @Test
+    public void getLastPostedCommodityInputTest() {
+        try {
+            List<CommodityInput> inputs = service.getLastPostedCommodityInput(2);
+            assert inputs != null;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            assert false;
+        }
+    }
 }
