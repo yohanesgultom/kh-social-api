@@ -91,7 +91,7 @@ public abstract class AbstractService {
                 "from comodity_input i join auth_user u on i.user_id = u.id " +
                 "join comodity c on i.comodity_name_id = c.id " +
                 "join region r on i.region_id = r.id " +
-                "where i.id in (select comodity_input_id from " + socialMediaTable + " order by created_date desc limit " + limit + ")";
+                "where i.id in (select comodity_input_id from " + socialMediaTable + " order by user_id desc limit " + limit + ")";
         Statement statement = dbConnection.createStatement();
         ResultSet rs = statement.executeQuery(selectSQL);
         while (rs.next()) {
